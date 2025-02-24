@@ -1,4 +1,4 @@
-package PhysicsSimulator.Physics2D.rigidbody;
+package PhysicsSimulator.src.Physics2D.rigidbody;
 
 import org.joml.Vector2f;
 

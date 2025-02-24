@@ -1,6 +1,6 @@
-package PhysicsSimulator.Physics2D.primitives;
+package Physics2D.primitives;
 
-import org.joml.Vector2f;
+import org.joml.*;
 
 
 // Axis Aligned Bounding Box
@@ -17,11 +17,11 @@ public class AABB_2D {
         this.center = new Vector2f(min).add(new Vector2f(size).div(2.0f));
     }
 
-//    public Vector2f getMin() {
-//
-//    }
-//
-//    public Vector2f getMax() {
-//
-//    }
+    public Vector2f getMin() {
+
+    }
+
+    public Vector2f getMax() {
+
+    }
 }

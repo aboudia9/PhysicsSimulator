@@ -1,10 +1,10 @@
-package PhysicsSimulator;
+package PopUpWindow;
 import javax.swing.JFrame;
 public class Runner {
       public static void main( String[] args ){
       JFrame frame = new JFrame("Simulator");
       
-      Screen sc = new Screen();
+      PopUpWindow.Screen sc = new PopUpWindow.Screen();
       frame.add(sc);
       
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

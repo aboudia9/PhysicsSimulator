@@ -1,4 +1,4 @@
-package PhysicsSimulator.Physics2D.primitives;
+package Physics2D.primitives;
 
 public class Circle {
     private float radius;

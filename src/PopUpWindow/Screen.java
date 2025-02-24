@@ -1,4 +1,4 @@
-package PhysicsSimulator;
+package PopUpWindow;
 import javax.swing.*;
 
 import java.awt.*;
