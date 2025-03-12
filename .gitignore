@@ -1,0 +1,6 @@
+# Ignore VS code settings
+
+.vscode/
+
+# Ignore library files
+libs/
