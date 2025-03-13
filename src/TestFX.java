@@ -1,14 +1,11 @@
-package main;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
-import ui.Window;
 
-public class Main extends Application {
+public class TestFX extends Application {
     @Override
     public void start(Stage primaryStage) {
-        Window window = new Window(primaryStage);
-        window.show();
+        primaryStage.setTitle("JavaFX Test");
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
