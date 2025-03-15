@@ -3,7 +3,7 @@ package Physics2D.primitives;
 import org.joml.*;
 
 
-// Axis Aligned Bounding Box
+// Axis Aligned Bounding Box (AABB)
 public class AABB_2D {
     private Vector2f center = new Vector2f();
     private Vector2f size = new Vector2f();
