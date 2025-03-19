@@ -103,9 +103,9 @@ public class Sandbox {
     private PolygonShape createTriangle(float size) {
         PolygonShape triangle = new PolygonShape();
         Vec2[] vertices = new Vec2[3];
-        vertices[0] = new Vec2(-size / SCALING_FACTOR, -size / SCALING_FACTOR);
-        vertices[1] = new Vec2(size / SCALING_FACTOR, -size / SCALING_FACTOR);
-        vertices[2] = new Vec2(0, size / SCALING_FACTOR);
+        vertices[0] = new Vec2(-size / (SCALE/SCALING_FACTOR), -size / (SCALE/SCALING_FACTOR));
+        vertices[1] = new Vec2(size / (SCALE/SCALING_FACTOR), -size / (SCALE/SCALING_FACTOR));
+        vertices[2] = new Vec2(0, size / (SCALE/SCALING_FACTOR));
         triangle.set(vertices, 3);
         return triangle;
     }
@@ -113,12 +113,12 @@ public class Sandbox {
     // Define a ground object that is static
     public void createGround() {
         BodyDef groundDef = new BodyDef();
-        groundDef.position.set(5.0f, 1.0f);
+        groundDef.position.set(0.0f, 0.0f);
         Body groundBody = world.createBody(groundDef);
 
         PolygonShape groundShape = new PolygonShape();
         // Box with width of 10m & height of 1m
-        groundShape.setAsBox(5.0f, 0.4f);
+        groundShape.setAsBox(10.0f, 0.25f);
 
         FixtureDef groundFixture = new FixtureDef();
         groundFixture.shape = groundShape;

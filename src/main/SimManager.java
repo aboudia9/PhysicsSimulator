@@ -11,6 +11,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.List;
+import java.util.Random;
+
 import ui.CtrlPanel;
 
 public class SimManager {
@@ -19,6 +21,7 @@ public class SimManager {
     private AnimationTimer timer;
     private Canvas canvas;
     private GraphicsContext gc;
+    private Random random = new Random();
     private boolean isRunning = true;
     // Arbitrary scale of pixels (javaFx) to meters (jbox2d)
     private static final float SCALE = 50.0f;
@@ -103,7 +106,7 @@ public class SimManager {
         }
     }
     public void addObject(String shape) {
-        float worldX = (float) 5;
+        float worldX = (float) random.nextFloat(0, 8);
         float worldY = (float) ((600 - 100)/SCALE);
         sandbox.addObject(shape, worldX, worldY, 1.0f);
         System.out.println(shape + " added!");
