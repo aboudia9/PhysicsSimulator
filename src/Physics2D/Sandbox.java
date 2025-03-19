@@ -16,6 +16,8 @@ public class Sandbox {
     private World world;
     private List<Body> objects;
     private List<String> objectTypes;
+    private final float SCALE = 50.0f;
+    private final float SCALING_FACTOR = 12.0f;
 
     public Sandbox() {
         // Create a new physics world with gravity
@@ -27,12 +29,12 @@ public class Sandbox {
     private class CollisionHandler implements ContactListener {
         @Override
         public void beginContact(Contact contact) {
-            System.out.println("Collision started between: " + contact.getFixtureA().getBody() + " and " + contact.getFixtureB().getBody());
+//            System.out.println("Collision started between: " + contact.getFixtureA().getBody() + " and " + contact.getFixtureB().getBody());
         }
 
         @Override
         public void endContact(Contact contact) {
-            System.out.println("Collision ended between: " + contact.getFixtureA().getBody() + " and " + contact.getFixtureB().getBody());
+//            System.out.println("Collision ended between: " + contact.getFixtureA().getBody() + " and " + contact.getFixtureB().getBody());
         }
 
         @Override
@@ -86,14 +88,14 @@ public class Sandbox {
     // 🔹 Creates a circle shape
     private CircleShape createCircle(float radius) {
         CircleShape circle = new CircleShape();
-        circle.setRadius(radius);
+        circle.setRadius(radius / (SCALE/SCALING_FACTOR));
         return circle;
     }
 
     // 🔹 Creates a square shape
     private PolygonShape createSquare(float size) {
         PolygonShape square = new PolygonShape();
-        square.setAsBox(size / 2, size / 2);
+        square.setAsBox(size / (SCALE/SCALING_FACTOR), size / (SCALE/SCALING_FACTOR));
         return square;
     }
 
@@ -101,9 +103,9 @@ public class Sandbox {
     private PolygonShape createTriangle(float size) {
         PolygonShape triangle = new PolygonShape();
         Vec2[] vertices = new Vec2[3];
-        vertices[0] = new Vec2(-size / 2, -size / 2);
-        vertices[1] = new Vec2(size / 2, -size / 2);
-        vertices[2] = new Vec2(0, size / 2);
+        vertices[0] = new Vec2(-size / SCALING_FACTOR, -size / SCALING_FACTOR);
+        vertices[1] = new Vec2(size / SCALING_FACTOR, -size / SCALING_FACTOR);
+        vertices[2] = new Vec2(0, size / SCALING_FACTOR);
         triangle.set(vertices, 3);
         return triangle;
     }

@@ -84,8 +84,8 @@ public class SimManager {
             Vec2 pos = positions.get(i);
             String type = shapeTypes.get(i);
 
-            double screenPosX = pos.x * (SCALE/2);
-            double screenPosY = 600 - (pos.y * (SCALE/2));
+            double screenPosX = (pos.x * SCALE);
+            double screenPosY = 600 - (pos.y * SCALE);
             // Convert physics coordinates to screen draw
             switch (type) {
                 case "circle":
