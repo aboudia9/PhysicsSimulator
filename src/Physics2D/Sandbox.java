@@ -15,12 +15,14 @@ import java.util.List;
 public class Sandbox {
     private World world;
     private List<Body> objects;
+    private List<String> objectTypes;
 
     public Sandbox() {
         // Create a new physics world with gravity
         world = new World(new Vec2(0, -9.8f));
         world.setContactListener(new CollisionHandler());
         objects = new ArrayList<>();
+        objectTypes = new ArrayList<>();
     }
     private class CollisionHandler implements ContactListener {
         @Override
@@ -77,6 +79,7 @@ public class Sandbox {
 
         body.createFixture(fixtureDef);
         objects.add(body);
+        objectTypes.add(shapeType);
 
         System.out.println("Object added successfully! Total objects: " + objects.size());
     }
@@ -122,6 +125,9 @@ public class Sandbox {
 
     }
 
+    public List<String> getObjectTypes() {
+        return objectTypes;
+    }
 
     public void step() {
         // Advance physics simulation by one step (time step = 1/60 sec)
