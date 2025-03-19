@@ -1,47 +1,119 @@
 package Physics2D;
 
-import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.callbacks.*;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.World;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.dynamics.contacts.Contact;
+import org.jbox2d.dynamics.joints.RevoluteJointDef;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.collision.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sandbox {
     private World world;
-    private Body dynamicBody;
+    private List<Body> objects;
 
     public Sandbox() {
         // Create a new physics world with gravity
         world = new World(new Vec2(0, -9.8f));
+        world.setContactListener(new CollisionHandler());
+        objects = new ArrayList<>();
+    }
+    private class CollisionHandler implements ContactListener {
+        @Override
+        public void beginContact(Contact contact) {
+            System.out.println("Collision started between: " + contact.getFixtureA().getBody() + " and " + contact.getFixtureB().getBody());
+        }
 
-        // Define a simple circular object (e.g., ball)
+        @Override
+        public void endContact(Contact contact) {
+            System.out.println("Collision ended between: " + contact.getFixtureA().getBody() + " and " + contact.getFixtureB().getBody());
+        }
+
+        @Override
+        public void preSolve(Contact contact, Manifold oldManifold) {}
+
+        @Override
+        public void postSolve(Contact contact, ContactImpulse contactImpulse) {}
+    }
+
+    public void addObject(String shapeType, float x, float y, float size) {
+        System.out.println("Attempting to add object: " + shapeType + " at (" + x + ", " + y + ")");
+
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
-        bodyDef.position.set(5.0f, 10.0f);  // Start position
+        bodyDef.position.set(x, y);
 
-        dynamicBody = world.createBody(bodyDef);
+        Body body = world.createBody(bodyDef);
 
-        CircleShape circle = new CircleShape();
-        circle.setRadius(1.0f);
+        Shape shape;
+        switch (shapeType.toLowerCase()) {
+            case "circle":
+                shape = createCircle(size);
+                break;
+            case "square":
+                shape = createSquare(size);
+                break;
+            case "triangle":
+                shape = createTriangle(size);
+                break;
+            default:
+                System.out.println("Unknown shape: " + shapeType);
+                return;
+        }
+        if (shape == null) {
+            System.out.println("Error: Shape is null!");
+            return;
+        }
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circle;
+        fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.3f;
-        // Ball fixture
-        dynamicBody.createFixture(fixtureDef);
+        fixtureDef.restitution = 0.5f; // Bounciness
 
-        // Define a ground object that is static
+        body.createFixture(fixtureDef);
+        objects.add(body);
+
+        System.out.println("Object added successfully! Total objects: " + objects.size());
+    }
+    // 🔹 Creates a circle shape
+    private CircleShape createCircle(float radius) {
+        CircleShape circle = new CircleShape();
+        circle.setRadius(radius);
+        return circle;
+    }
+
+    // 🔹 Creates a square shape
+    private PolygonShape createSquare(float size) {
+        PolygonShape square = new PolygonShape();
+        square.setAsBox(size / 2, size / 2);
+        return square;
+    }
+
+    // 🔹 Creates a triangle shape
+    private PolygonShape createTriangle(float size) {
+        PolygonShape triangle = new PolygonShape();
+        Vec2[] vertices = new Vec2[3];
+        vertices[0] = new Vec2(-size / 2, -size / 2);
+        vertices[1] = new Vec2(size / 2, -size / 2);
+        vertices[2] = new Vec2(0, size / 2);
+        triangle.set(vertices, 3);
+        return triangle;
+    }
+
+    // Define a ground object that is static
+    public void createGround() {
         BodyDef groundDef = new BodyDef();
         groundDef.position.set(5.0f, 1.0f);
         Body groundBody = world.createBody(groundDef);
 
         PolygonShape groundShape = new PolygonShape();
         // Box with width of 10m & height of 1m
-        groundShape.setAsBox(5.0f, 0.5f);
+        groundShape.setAsBox(5.0f, 0.4f);
 
         FixtureDef groundFixture = new FixtureDef();
         groundFixture.shape = groundShape;
@@ -50,12 +122,30 @@ public class Sandbox {
 
     }
 
+
     public void step() {
         // Advance physics simulation by one step (time step = 1/60 sec)
         world.step(1.0f / 60.0f, 8, 3);
     }
+    // 🔹 Returns a list of object positions (for UI rendering)
+    public List<Vec2> getObjectPositions() {
+        List<Vec2> positions = new ArrayList<>();
+        for (Body body : objects) {
+            positions.add(body.getPosition());
+        }
+        return positions;
+    }
 
-    public Vec2 getObjectPosition() {
-        return dynamicBody.getPosition();
+    // 🔹 Removes all objects from the world (for resets)
+    public void clearObjects() {
+        for (Body body : objects) {
+            world.destroyBody(body);
+        }
+        objects.clear();
+    }
+
+
+    public void adjustGravity(float v) {
+        world.setGravity(new Vec2(0, v));
     }
 }

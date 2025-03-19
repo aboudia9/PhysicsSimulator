@@ -17,11 +17,11 @@ public class AABB_2D {
         this.center = new Vector2f(min).add(new Vector2f(size).div(2.0f));
     }
 
-    public Vector2f getMin() {
-
-    }
-
-    public Vector2f getMax() {
-
-    }
+//    public Vector2f getMin() {
+//
+//    }
+//
+//    public Vector2f getMax() {
+//
+//    }
 }
