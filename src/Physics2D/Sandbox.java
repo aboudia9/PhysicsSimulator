@@ -118,7 +118,7 @@ public class Sandbox {
 
         PolygonShape groundShape = new PolygonShape();
         // Box with width of 10m & height of 1m
-        groundShape.setAsBox(10.0f, 0.25f);
+        groundShape.setAsBox(25.0f, 0.25f);
 
         FixtureDef groundFixture = new FixtureDef();
         groundFixture.shape = groundShape;

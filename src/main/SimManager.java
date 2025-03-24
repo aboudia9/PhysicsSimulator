@@ -151,12 +151,12 @@ public class SimManager {
     }
 
     public void increaseGravity() {
-        sandbox.adjustGravity(1.0f);
+        sandbox.adjustGravity(-0.5f);
         System.out.println("Increased gravity");
     }
 
     public void decreaseGravity() {
-        sandbox.adjustGravity(-1.0f);
+        sandbox.adjustGravity(0.75f);
         System.out.println("Decreased gravity");
     }
 }
