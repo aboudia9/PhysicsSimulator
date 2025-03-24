@@ -45,6 +45,7 @@ public class UserInput {
 
         Scene.setOnMouseClicked((MouseEvent event) -> {
             String selectedShape = ctrlPanel.getSelectedShape();
+            simManager.addToColorList(ctrlPanel.getSelectedColor());
             simManager.addObject(selectedShape);
         });
     }

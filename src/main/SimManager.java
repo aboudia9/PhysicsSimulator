@@ -10,6 +10,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +24,9 @@ public class SimManager {
     private GraphicsContext gc;
     private Random random = new Random();
     private boolean isRunning = true;
+    private CtrlPanel ctrlPanel;
+    private List<String> colorTypes;
+
     // Arbitrary scale of pixels (javaFx) to meters (jbox2d)
     private static final float SCALE = 50.0f;
 
@@ -35,8 +39,9 @@ public class SimManager {
         window.getRoot().setCenter(simulationPane);
 
         // Initialize the control Panel
-        CtrlPanel ctrlPanel = new CtrlPanel(this);
+        ctrlPanel = new CtrlPanel(this);
         window.getRoot().setRight(ctrlPanel);
+        colorTypes = new ArrayList<String>();
 
 
         // create a canvas to draw objects (same dimensions as window)
@@ -79,13 +84,16 @@ public class SimManager {
         // Get all ball object positions and draw each one
         List<Vec2> positions = sandbox.getObjectPositions();
         List<String> shapeTypes = sandbox.getObjectTypes();
+        // System.out.println(colorTypes.toString());
 
 //        System.out.println("Rendering " + positions.size() + " objects");
-        gc.setFill(Color.GREEN);
+        // gc.setFill(Color.GREEN); 
 
         for (int i = 0; i < positions.size(); i++) {
             Vec2 pos = positions.get(i);
             String type = shapeTypes.get(i);
+            String color = colorTypes.get(i);
+            setColorFill(color);
 
             double screenPosX = (pos.x * SCALE);
             double screenPosY = 600 - (pos.y * SCALE);
@@ -110,6 +118,31 @@ public class SimManager {
         float worldY = (float) ((600 - 100)/SCALE);
         sandbox.addObject(shape, worldX, worldY, 1.0f);
         System.out.println(shape + " added!");
+    }
+
+    public void setColorFill(String color) {
+        switch (color.toLowerCase()) {
+            case "red":
+                gc.setFill(Color.RED);
+                break;
+            case "green":
+                gc.setFill(Color.GREEN);
+                break;
+            case "blue":
+                gc.setFill(Color.BLUE);
+                break;
+            case "orange":
+                gc.setFill(Color.ORANGE);
+                break;
+            default:
+                gc.setFill(Color.BLACK); 
+                break;
+        }
+    }
+    
+
+    public void addToColorList(String color){
+        colorTypes.add(color);
     }
 
     public void toggleSimulation() {
