@@ -77,7 +77,7 @@ public class SimManager {
 
         // fill the ground brown (ground doesn't move so it's simple)
         double groundYcoordinate = 600 - (1.0 * 100);
-        gc.setFill(Color.PAPAYAWHIP);
+        gc.setFill(Color.SANDYBROWN);
         gc.fillRect(0, groundYcoordinate, 800, 100);
 
 
