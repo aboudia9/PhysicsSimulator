@@ -114,7 +114,7 @@ public class SimManager {
         }
     }
     public void addObject(String shape) {
-        float worldX = (float) random.nextFloat(0, 8);
+        float worldX = (float) random.nextFloat(0, 15);
         float worldY = (float) ((600 - 100)/SCALE);
         sandbox.addObject(shape, worldX, worldY, 1.0f);
         System.out.println(shape + " added!");
