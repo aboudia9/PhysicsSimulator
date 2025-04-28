@@ -34,6 +34,7 @@ public class SimManager {
     public SimManager(Window window) {
         this.window = window;
         this.sandbox = new Sandbox();
+        sandbox.createGround();
 
         Pane simulationPane = new Pane();
         window.getRoot().setCenter(simulationPane);
@@ -73,7 +74,7 @@ public class SimManager {
     private void render() {
         // clear the frame
         gc.clearRect(0, 0, 800, 600);
-        sandbox.createGround();
+
 
         // fill the ground brown (ground doesn't move so it's simple)
         double groundYcoordinate = 600 - (1.0 * 100);
