@@ -156,4 +156,15 @@ public class Sandbox {
     public void adjustGravity(float v) {
         world.setGravity(new Vec2(0, v));
     }
+
+    public void setObjectPositionSandbox(Vec2 mousePosition) {
+        float scale = 0.02f;
+        float offset = 12.2f;
+        Vec2 v = new Vec2(0f,0f);
+        objects.getLast().setLinearVelocity(v);
+
+        Vec2 newPosition = new Vec2(mousePosition.x*scale, (-mousePosition.y*scale)+offset);
+        objects.getLast().setTransform(newPosition, objects.getLast().getAngle());
+        //System.out.println("object is currently at " +  objects.getLast().getPosition());
+    }
 }

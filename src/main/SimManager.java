@@ -160,4 +160,9 @@ public class SimManager {
         sandbox.adjustGravity(0.75f);
         System.out.println("Decreased gravity");
     }
+
+    public void setObjectPositionSim(Vec2 mousePosition) {
+        sandbox.setObjectPositionSandbox(mousePosition);
+        //System.out.println("Currently Moving Object");
+    }
 }

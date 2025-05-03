@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.SimManager;
+import org.jbox2d.common.Vec2;
 import ui.CtrlPanel;
 
 
@@ -40,13 +41,17 @@ public class UserInput {
 
         // Handle mouse dragging
         Scene.setOnMouseDragged((MouseEvent event) -> {
-            System.out.println("Dragging at: " + event.getX() + ", " + event.getY());
+            //System.out.println("Dragging at: " + event.getX() + ", " + event.getY());
+            Vec2 mousePosition = new Vec2((float) event.getSceneX(), (float) event.getSceneY());
+            simManager.setObjectPositionSim(mousePosition);
         });
 
         Scene.setOnMouseClicked((MouseEvent event) -> {
+            /*
             String selectedShape = ctrlPanel.getSelectedShape();
             simManager.addToColorList(ctrlPanel.getSelectedColor());
             simManager.addObject(selectedShape);
+            */
         });
     }
 }
