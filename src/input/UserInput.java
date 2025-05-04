@@ -9,14 +9,23 @@ import ui.CtrlPanel;
 
 
 public class UserInput {
+    /**
+     * Install all input handlers onto the given Scene.
+     *
+     * @param Scene      The JavaFX Scene to listen on.
+     * @param simManager Callback target for simulation control.
+     * @param ctrlPanel  Reference to control panel (if needed).
+     */
     public static void setup(Scene Scene, SimManager simManager, CtrlPanel ctrlPanel) {
         // Handle keyboard input
         Scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
                 case SPACE:
+                    simManager.toggleSimulation();
                     System.out.println("Spacebar pressed!");
                     break;
                 case R:
+                    // TODO: Add Reset Key
                     System.out.println("Reset simulation!");
                     break;
                 case P:
@@ -35,18 +44,19 @@ public class UserInput {
         });
 
         // Handle mouse clicks
-        Scene.setOnMouseClicked((MouseEvent event) -> {
+        Scene.setOnMousePressed((MouseEvent event) -> {
+            simManager.beginDrag(new Vec2((float)event.getSceneX(), (float)event.getSceneY()));
             System.out.println("Mouse clicked at: " + event.getX() + ", " + event.getY());
         });
 
         // Handle mouse dragging
         Scene.setOnMouseDragged((MouseEvent event) -> {
             //System.out.println("Dragging at: " + event.getX() + ", " + event.getY());
-            Vec2 mousePosition = new Vec2((float) event.getSceneX(), (float) event.getSceneY());
-            simManager.setObjectPositionSim(mousePosition);
+            simManager.dragObject(new Vec2((float) event.getSceneX(), (float) event.getSceneY()));
         });
 
-        Scene.setOnMouseClicked((MouseEvent event) -> {
+        Scene.setOnMouseReleased((MouseEvent event) -> {
+            simManager.releaseDrag();
             /*
             String selectedShape = ctrlPanel.getSelectedShape();
             simManager.addToColorList(ctrlPanel.getSelectedColor());

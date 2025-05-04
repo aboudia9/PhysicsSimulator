@@ -10,7 +10,7 @@ import main.SimManager;
 
 public class CtrlPanel extends VBox {
     private ComboBox<String> shapeSelector;
-    private ComboBox<String> colorSelector;
+    private static ComboBox<String> colorSelector;
     private Circle colorPreview;
 
     public CtrlPanel(SimManager simManager) {
@@ -62,7 +62,7 @@ public class CtrlPanel extends VBox {
         // Add Object Button
         Button addObjectButton = new Button("➕ Add Object");
         addObjectButton.setOnAction(e -> {
-            simManager.addToColorList(getSelectedColor());
+//            simManager.addToColorList(getSelectedColor());
             simManager.addObject(getSelectedShape());
         });
 
@@ -82,7 +82,7 @@ public class CtrlPanel extends VBox {
         return shapeSelector.getValue().toLowerCase();
     }
 
-    public String getSelectedColor() {
+    public static String getSelectedColor() {
         return colorSelector.getValue().toLowerCase();
     }
 }
