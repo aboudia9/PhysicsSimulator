@@ -140,12 +140,6 @@ public class SimManager {
     /**
      * Spawn a new object at a random horizontal position above the ground.
      */
-    public void addObject(String shape) {
-        float worldX = random.nextFloat() * 15; // up to 15 meters
-        float worldY = (HEIGHT - 100) / SCALE; // ground level in meters
-        sandbox.addObject(shape, worldX, worldY, 1.0f);
-        colorTypes.add(CtrlPanel.getSelectedColor());
-    }
 
     public void addObject(String shape, float sizeFactor) {
         float baseHalfSize = 0.25f; // 0.25 meters (half-size)

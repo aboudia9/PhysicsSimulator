@@ -1,5 +1,6 @@
 package ui;
 
+import Physics2D.Sandbox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -18,6 +19,7 @@ public class CtrlPanel extends VBox {
         this.setSpacing(10);
         this.setStyle(
                 "-fx-background-color: rgba(240, 240, 240, 0.85); -fx-border-color: #aaa; -fx-border-radius: 10; -fx-background-radius: 10;");
+        this.getStyleClass().add("ctrl-panel");
         this.setAlignment(Pos.TOP_CENTER);
 
         Label title = new Label("Controls");
