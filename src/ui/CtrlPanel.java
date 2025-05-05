@@ -27,14 +27,30 @@ public class CtrlPanel extends VBox {
         // Pause/Gravity Buttons
         Button pauseButton = new Button("⏯ Pause/Resume");
         pauseButton.setOnAction(e -> simManager.toggleSimulation());
-
+/*
         Button increaseGravityButton = new Button("⬇ Increase Gravity");
         increaseGravityButton.setOnAction(e -> simManager.increaseGravity());
 
         Button decreaseGravityButton = new Button("⬆ Decrease Gravity");
         decreaseGravityButton.setOnAction(e -> simManager.decreaseGravity());
+*/
+        this.getChildren().addAll(pauseButton/*, increaseGravityButton, decreaseGravityButton*/);
 
-        this.getChildren().addAll(pauseButton, increaseGravityButton, decreaseGravityButton);
+        // Gravity slider
+        Label gravityLabel = new Label("Gravity Modifier:");
+        Slider gravitySlider = new Slider(-30.0f, 30.0f, 1.0); // Min 50%, Max 150%
+        gravitySlider.setShowTickLabels(true);
+        gravitySlider.setShowTickMarks(true);
+        gravitySlider.setMajorTickUnit(10);
+        gravitySlider.setBlockIncrement(1);
+
+        Button setGravityButton = new Button("Modify Gravity");
+        setGravityButton.setOnAction(e -> simManager.setGravity((float)gravitySlider.getValue()));
+
+        Button resetGravityButton = new Button("Reset Gravity");
+        resetGravityButton.setOnAction(e -> simManager.setGravity(1.0f));
+
+        this.getChildren().addAll(gravityLabel, gravitySlider, setGravityButton, resetGravityButton);
 
         // Shape Selector
         shapeSelector = new ComboBox<>();
@@ -65,8 +81,8 @@ public class CtrlPanel extends VBox {
         Slider sizeSlider = new Slider(0.5, 2.5, 1.0); // Min 50%, Max 150%
         sizeSlider.setShowTickLabels(true);
         sizeSlider.setShowTickMarks(true);
-        sizeSlider.setMajorTickUnit(30);
-        sizeSlider.setBlockIncrement(10);
+        sizeSlider.setMajorTickUnit(1);
+        sizeSlider.setBlockIncrement(0.5);
 
         this.getChildren().addAll(sizeLabel, sizeSlider);
 
@@ -76,6 +92,7 @@ public class CtrlPanel extends VBox {
         //     // simManager.addToColorList(getSelectedColor());
         //     simManager.addObject(getSelectedShape());
         // });
+        addObjectButton.setMinHeight(50.0f);
 
         addObjectButton.setOnAction(e -> {
             double size = sizeSlider.getValue();

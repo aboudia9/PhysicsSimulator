@@ -187,6 +187,10 @@ public class SimManager {
         isRunning = !isRunning;
     }
 
+    // Modify gravity using a variable value
+    public void setGravity(float gravityVal) {
+        sandbox.adjustGravity(-9.8f * gravityVal);
+    }
     /** Increase downward gravity to make objects fall faster. */
     public void increaseGravity() {
         sandbox.adjustGravity(-9.8f * 1.1f);
