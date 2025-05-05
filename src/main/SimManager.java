@@ -5,12 +5,12 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import org.jbox2d.common.Vec2;
 import Physics2D.Sandbox;
 import input.UserInput;
 import ui.CtrlPanel;
 import ui.Window;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +18,10 @@ import java.util.Random;
 
 /**
  * SimManager bridges the physics Sandbox with JavaFX:
- *  - sets up ground, walls, ceiling
- *  - handles the render loop
- *  - converts between world and screen coordinates
- *  - provides methods for input callbacks
+ * - sets up ground, walls, ceiling
+ * - handles the render loop
+ * - converts between world and screen coordinates
+ * - provides methods for input callbacks
  */
 public class SimManager {
     /** Physics backend managing bodies and joints. */
@@ -38,6 +38,8 @@ public class SimManager {
     private boolean isRunning = true;
     /** Colors selected for each object, in parallel with bodies. */
     private final List<String> colorTypes = new ArrayList<>();
+    /** Size selected for each object, in parallel with bodies. */
+    private final List<Float> sizeFactors = new ArrayList<>();
     /** Pixel-to-meter conversion factor. */
     private static final float SCALE = 50.0f;
     /** World dimensions in pixels. */
@@ -74,8 +76,8 @@ public class SimManager {
             @Override
             public void handle(long now) {
                 if (isRunning) {
-                    sandbox.step();   // advance physics
-                    render();        // draw current state
+                    sandbox.step(); // advance physics
+                    render(); // draw current state
                 }
             }
         };
@@ -93,11 +95,12 @@ public class SimManager {
         // Draw ground as a static brown rectangle
         gc.setFill(Color.SANDYBROWN);
         // Ground height is 100px (2m * 50px/m)
-        gc.fillRect(0, HEIGHT - 100, WIDTH, 100);
+        gc.fillRect(0, HEIGHT - (0.25f * SCALE), WIDTH, 0.25f * SCALE);
+
 
         // Retrieve dynamic object data
         List<Vec2> positions = sandbox.getObjectPositions();
-        List<String> shapes   = sandbox.getObjectTypes();
+        List<String> shapes = sandbox.getObjectTypes();
 
         // Render each object with its assigned color and shape
         for (int i = 0; i < positions.size(); i++) {
@@ -106,26 +109,31 @@ public class SimManager {
             String color = colorTypes.get(i);
             setColorFill(color);
 
-            // Convert: worldX * SCALE, worldY * SCALE flipped vertically
             double x = pos.x * SCALE;
             double y = HEIGHT - (pos.y * SCALE);
+            float sizeFactor = sizeFactors.get(i);
+            double baseSize = SCALE * 0.5; // SCALE / 2, matching 0.25m base half-size
+            double renderSize = baseSize * sizeFactor;
+
+            double renderX = x - renderSize / 2;
+            double renderY = y - renderSize / 2;
 
             switch (type) {
                 case "circle":
-                    gc.fillOval(x, y, SCALE / 2, SCALE / 2);
+                    gc.fillOval(renderX, renderY, renderSize, renderSize);
                     break;
                 case "square":
-                    gc.fillRect(x, y, SCALE / 2, SCALE / 2);
+                    gc.fillRect(renderX, renderY, renderSize, renderSize);
                     break;
                 case "triangle":
-                    double[] xs = {x, x + SCALE/4, x - SCALE/4};
-                    double[] ys = {y, y + SCALE/2, y + SCALE/2};
+                    double[] xs = { renderX, renderX + renderSize / 2, renderX - renderSize / 2 };
+                    double[] ys = { renderY, renderY + renderSize, renderY + renderSize };
                     gc.fillPolygon(xs, ys, 3);
                     break;
                 default:
-                    // Unknown type – skip
                     break;
             }
+
         }
     }
 
@@ -133,10 +141,22 @@ public class SimManager {
      * Spawn a new object at a random horizontal position above the ground.
      */
     public void addObject(String shape) {
-        float worldX = random.nextFloat() * 15;              // up to 15 meters
-        float worldY = (HEIGHT - 100) / SCALE;              // ground level in meters
+        float worldX = random.nextFloat() * 15; // up to 15 meters
+        float worldY = (HEIGHT - 100) / SCALE; // ground level in meters
         sandbox.addObject(shape, worldX, worldY, 1.0f);
         colorTypes.add(CtrlPanel.getSelectedColor());
+    }
+
+    public void addObject(String shape, float sizeFactor) {
+        float baseHalfSize = 0.25f; // 0.25 meters (half-size)
+        float scaledHalfSize = baseHalfSize * sizeFactor;
+
+        float worldX = random.nextFloat() * 15; // up to 15 meters width
+        float worldY = (HEIGHT - 100) / SCALE - scaledHalfSize; // lift up by half-size
+
+        sandbox.addObject(shape, worldX, worldY, scaledHalfSize); // pass half-size directly
+        colorTypes.add(CtrlPanel.getSelectedColor());
+        sizeFactors.add(sizeFactor);
     }
 
     /**
@@ -144,11 +164,21 @@ public class SimManager {
      */
     public void setColorFill(String color) {
         switch (color.toLowerCase()) {
-            case "red":    gc.setFill(Color.RED);    break;
-            case "green":  gc.setFill(Color.GREEN);  break;
-            case "blue":   gc.setFill(Color.BLUE);   break;
-            case "orange": gc.setFill(Color.ORANGE); break;
-            default:       gc.setFill(Color.BLACK);  break;
+            case "red":
+                gc.setFill(Color.RED);
+                break;
+            case "green":
+                gc.setFill(Color.GREEN);
+                break;
+            case "blue":
+                gc.setFill(Color.BLUE);
+                break;
+            case "orange":
+                gc.setFill(Color.ORANGE);
+                break;
+            default:
+                gc.setFill(Color.BLACK);
+                break;
         }
     }
 
@@ -171,9 +201,9 @@ public class SimManager {
         sandbox.adjustGravity(-9.8f * 0.9f);
     }
 
-    //─────────────────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────
     // Input callbacks for mouse-based dragging
-    //─────────────────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────
 
     /**
      * Called on mouse-press: initiate the MouseJoint-based drag.
