@@ -1,0 +1,17 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.referencedLibraries": [
+        "/Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib/javafx-swt.jar",
+        "/Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib/javafx.base.jar",
+        "/Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib/javafx.controls.jar",
+        "/Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib/javafx.fxml.jar",
+        "/Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib/javafx.graphics.jar",
+        "/Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib/javafx.media.jar",
+        "/Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib/javafx.swing.jar",
+        "/Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib/javafx.web.jar",
+        "/Users/laraschwarz/Code/CS250/PhysicsSimulator/lib/jbox2d-library-2.2.1.1.jar",
+        "/Users/laraschwarz/Code/CS250/PhysicsSimulator/lib/joml-1.10.8.jar"
+    ]
+}

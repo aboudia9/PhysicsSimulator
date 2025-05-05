@@ -8,6 +8,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         Window window = new Window(primaryStage);
+        new SimManager(window);
         window.show();
     }
 

@@ -1,3 +1,7 @@
-# Ignore VS code settings
 
+# IntilliJ IDEA build output
+**/out/production/
+
+# Ignore VS code settings
 .vscode/
+

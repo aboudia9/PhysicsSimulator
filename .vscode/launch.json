@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Runner",
+            "request": "launch",
+            "mainClass": "PopUpWindow.Runner",
+            "projectName": "PhysicsSimulator_5da13412"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "main.Main",
+            "projectName": "PhysicsSimulator_5da13412"
+        },
+        {
+            "type": "java",
+            "name": "Launch JavaFX",
+            "request": "launch",
+            "mainClass": "main.Main", 
+            "vmArgs": "--module-path /Users/laraschwarz/Code/CS250/javafx-sdk-21.0.6/lib --add-modules javafx.controls,javafx.fxml"
+        }        
+    ]
+}
