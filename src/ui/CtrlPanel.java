@@ -16,7 +16,8 @@ public class CtrlPanel extends VBox {
     public CtrlPanel(SimManager simManager) {
         this.setPadding(new Insets(15));
         this.setSpacing(10);
-        this.setStyle("-fx-background-color: rgba(240, 240, 240, 0.85); -fx-border-color: #aaa; -fx-border-radius: 10; -fx-background-radius: 10;");
+        this.setStyle(
+                "-fx-background-color: rgba(240, 240, 240, 0.85); -fx-border-color: #aaa; -fx-border-radius: 10; -fx-background-radius: 10;");
         this.setAlignment(Pos.TOP_CENTER);
 
         Label title = new Label("Controls");
@@ -50,7 +51,7 @@ public class CtrlPanel extends VBox {
 
         HBox colorRow = new HBox(8);
         colorRow.setAlignment(Pos.CENTER_LEFT);
-        colorPreview = new Circle(10, Color.RED);  // live preview
+        colorPreview = new Circle(10, Color.RED); // live preview
         colorSelector.setOnAction(e -> {
             simManager.setColorFill(getSelectedColor());
             updateColorPreview();
@@ -59,11 +60,26 @@ public class CtrlPanel extends VBox {
         colorRow.getChildren().addAll(new Label("Color:"), colorSelector, colorPreview);
         this.getChildren().add(colorRow);
 
+        // Size slider
+        Label sizeLabel = new Label("Size:");
+        Slider sizeSlider = new Slider(0.5, 2.5, 1.0); // Min 50%, Max 150%
+        sizeSlider.setShowTickLabels(true);
+        sizeSlider.setShowTickMarks(true);
+        sizeSlider.setMajorTickUnit(30);
+        sizeSlider.setBlockIncrement(10);
+
+        this.getChildren().addAll(sizeLabel, sizeSlider);
+
         // Add Object Button
         Button addObjectButton = new Button("➕ Add Object");
+        // addObjectButton.setOnAction(e -> {
+        //     // simManager.addToColorList(getSelectedColor());
+        //     simManager.addObject(getSelectedShape());
+        // });
+
         addObjectButton.setOnAction(e -> {
-//            simManager.addToColorList(getSelectedColor());
-            simManager.addObject(getSelectedShape());
+            double size = sizeSlider.getValue();
+            simManager.addObject(getSelectedShape(), (float) size);
         });
 
         this.getChildren().add(addObjectButton);
@@ -71,10 +87,18 @@ public class CtrlPanel extends VBox {
 
     private void updateColorPreview() {
         switch (getSelectedColor()) {
-            case "red": colorPreview.setFill(Color.RED); break;
-            case "green": colorPreview.setFill(Color.GREEN); break;
-            case "blue": colorPreview.setFill(Color.BLUE); break;
-            case "orange": colorPreview.setFill(Color.ORANGE); break;
+            case "red":
+                colorPreview.setFill(Color.RED);
+                break;
+            case "green":
+                colorPreview.setFill(Color.GREEN);
+                break;
+            case "blue":
+                colorPreview.setFill(Color.BLUE);
+                break;
+            case "orange":
+                colorPreview.setFill(Color.ORANGE);
+                break;
         }
     }
 

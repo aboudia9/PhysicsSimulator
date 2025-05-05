@@ -117,35 +117,70 @@ public class Sandbox {
      * @param y         Vertical position in meters
      * @param size      Logical size for rendering/scaling
      */
-    public void addObject(String shapeType, float x, float y, float size) {
+    // public void addObject(String shapeType, float x, float y, float size) {
+    //     BodyDef bd = new BodyDef();
+    //     bd.type = BodyType.DYNAMIC;
+    //     bd.position.set(x, y);
+    //     Body body = world.createBody(bd);
+
+    //     // Choose shape based on user selection
+    //     Shape shape;
+    //     switch (shapeType.toLowerCase()) {
+    //         case "circle":   shape = createCircle(size);   break;
+    //         case "square":   shape = createSquare(size);   break;
+    //         case "triangle": shape = createTriangle(size); break;
+    //         default:
+    //             // Unknown shape: skip creation
+    //             System.err.println("Unknown shape: " + shapeType);
+    //             return;
+    //     }
+
+    //     // Physical properties: mass via density, friction, restitution for bounciness
+    //     FixtureDef fd = new FixtureDef();
+    //     fd.shape = shape;
+    //     fd.density = 1.0f;
+    //     fd.friction = 0.3f;
+    //     fd.restitution = 0.5f;
+    //     body.createFixture(fd);
+
+    //     objects.add(body);
+    //     objectTypes.add(shapeType);
+    // }
+
+    public void addObject(String shapeType, float x, float y, float halfSizeMeters) {
         BodyDef bd = new BodyDef();
         bd.type = BodyType.DYNAMIC;
         bd.position.set(x, y);
         Body body = world.createBody(bd);
-
+    
         // Choose shape based on user selection
         Shape shape;
         switch (shapeType.toLowerCase()) {
-            case "circle":   shape = createCircle(size);   break;
-            case "square":   shape = createSquare(size);   break;
-            case "triangle": shape = createTriangle(size); break;
+            case "circle":   
+                shape = createCircle(halfSizeMeters);   // pass half-size as radius
+                break;
+            case "square":   
+                shape = createSquare(halfSizeMeters);   // pass half-size
+                break;
+            case "triangle": 
+                shape = createTriangle(halfSizeMeters); // pass half-size
+                break;
             default:
-                // Unknown shape: skip creation
                 System.err.println("Unknown shape: " + shapeType);
                 return;
         }
-
-        // Physical properties: mass via density, friction, restitution for bounciness
+    
         FixtureDef fd = new FixtureDef();
         fd.shape = shape;
         fd.density = 1.0f;
         fd.friction = 0.3f;
         fd.restitution = 0.5f;
         body.createFixture(fd);
-
+    
         objects.add(body);
         objectTypes.add(shapeType);
     }
+    
 
     /** @return List of current object positions (in world meters). */
     public List<Vec2> getObjectPositions() {
@@ -255,31 +290,55 @@ public class Sandbox {
     // Shape-creation helpers (private)
     //─────────────────────────────────────────────────────────────────────────
 
-    /** Build a circle shape scaled to the physics world. */
-    private CircleShape createCircle(float radius) {
+    // /** Build a circle shape scaled to the physics world. */
+    // private CircleShape createCircle(float radius) {
+    //     CircleShape c = new CircleShape();
+    //     c.setRadius(radius/ (SCALE / SCALING_FACTOR));
+    //     return c;
+    // }
+
+    // /** Build a square (as box) scaled to the physics world. */
+    // private PolygonShape createSquare(float size) {
+    //     PolygonShape p = new PolygonShape();
+    //     float half = size / (SCALE / SCALING_FACTOR);
+    //     p.setAsBox(half, half);
+    //     return p;
+    // }
+
+    // /** Build an equilateral triangle scaled to the physics world. */
+    // private PolygonShape createTriangle(float size) {
+    //     PolygonShape t = new PolygonShape();
+    //     float half = size / (SCALE / SCALING_FACTOR);
+    //     Vec2[] verts = {
+    //             new Vec2(-half, -half),
+    //             new Vec2(half, -half),
+    //             new Vec2(0, half)
+    //     };
+    //     t.set(verts, verts.length);
+    //     return t;
+    // }
+
+    private CircleShape createCircle(float radiusMeters) {
         CircleShape c = new CircleShape();
-        c.setRadius(radius / (SCALE / SCALING_FACTOR));
+        c.setRadius(radiusMeters);  // already in meters
         return c;
     }
-
-    /** Build a square (as box) scaled to the physics world. */
-    private PolygonShape createSquare(float size) {
+    
+    private PolygonShape createSquare(float halfSizeMeters) {
         PolygonShape p = new PolygonShape();
-        float half = size / (SCALE / SCALING_FACTOR);
-        p.setAsBox(half, half);
+        p.setAsBox(halfSizeMeters, halfSizeMeters);  // already in meters
         return p;
     }
-
-    /** Build an equilateral triangle scaled to the physics world. */
-    private PolygonShape createTriangle(float size) {
+    
+    private PolygonShape createTriangle(float halfSizeMeters) {
         PolygonShape t = new PolygonShape();
-        float half = size / (SCALE / SCALING_FACTOR);
         Vec2[] verts = {
-                new Vec2(-half, -half),
-                new Vec2(half, -half),
-                new Vec2(0, half)
+            new Vec2(-halfSizeMeters, -halfSizeMeters),
+            new Vec2(halfSizeMeters, -halfSizeMeters),
+            new Vec2(0, halfSizeMeters)
         };
         t.set(verts, verts.length);
         return t;
     }
+    
 }
