@@ -21,18 +21,18 @@ Hot Keys and Control Panel:
   'R' key - reset simulation
 
   1. Slider under gravity - changes the factor of gravity (in m/s/s)
-      a) must select "modify gravity" to confirm changes
-      b) reset gravity button to scale back to 9.8 m/s/s
+      (a) must select "modify gravity" to confirm changes
+      (b) reset gravity button to scale back to 9.8 m/s/s
   
   2. Slider under objects - changes the size of the object (in meters)
-      a) slider must be scaled prior to spawning new object
-      b) slider is centered around 1 m for objects initially being spawned
+      (a) slider must be scaled prior to spawning new object
+      (b) slider is centered around 1 m for objects initially being spawned
   
   3. Color Drop-down - changes object to one of four colors
-      a) Blue, Green, Red, Orange
+      (a) Blue, Green, Red, Orange
   
   4. Shape Drop-down - changes object to one of three shapes
-      a) Circle, Square, Triangle
+      (a) Circle, Square, Triangle
   
   5. 'Add Object' - adds selected shape of selected size to canvas
 
