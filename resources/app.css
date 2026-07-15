@@ -1,0 +1,41 @@
+/* app.css */
+
+.root {
+    -fx-background-color:
+        /* base dark fade */
+            linear-gradient(to bottom right,
+            #1a1a1a,
+            #000000
+            ),
+                /* subtle noise overlay */
+            radial-gradient(
+                    center 50% 50%,
+                    radius 120px,
+                    rgba(255,255,255,0.02) 0px,
+                    rgba(255,255,255,0.02) 1px,
+                    transparent 1px,
+                    transparent 3px,
+                    rgba(255,255,255,0.02) 3%,
+                    rgba(255,255,255,0.02) 4%,
+                    transparent           4%,
+                    transparent           6%
+            );
+}
+
+.ctrl-panel {
+    -fx-background-color: rgba(40,40,40,0.75);
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+}
+
+.ctrl-panel .button {
+    -fx-background-radius: 8;
+    -fx-background-color: linear-gradient(#444, #222);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.ctrl-panel .combo-box,
+.ctrl-panel .label {
+    -fx-text-fill: #222;
+}

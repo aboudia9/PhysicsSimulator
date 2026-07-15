@@ -7,17 +7,18 @@ import main.SimManager;
 import org.jbox2d.common.Vec2;
 import ui.CtrlPanel;
 
+
 public class UserInput {
     /**
      * Install all input handlers onto the given Scene.
      *
-     * @param scene      The JavaFX Scene to listen on.
+     * @param Scene      The JavaFX Scene to listen on.
      * @param simManager Callback target for simulation control.
      * @param ctrlPanel  Reference to control panel (if needed).
      */
-    public static void setup(Scene scene, SimManager simManager, CtrlPanel ctrlPanel) {
+    public static void setup(Scene Scene, SimManager simManager, CtrlPanel ctrlPanel) {
         // Handle keyboard input
-        scene.setOnKeyPressed((KeyEvent event) -> {
+        Scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
                 case SPACE:
                     simManager.toggleSimulation();
@@ -43,19 +44,24 @@ public class UserInput {
         });
 
         // Handle mouse clicks
-        scene.setOnMousePressed((MouseEvent event) -> {
+        Scene.setOnMousePressed((MouseEvent event) -> {
             simManager.beginDrag(new Vec2((float)event.getSceneX(), (float)event.getSceneY()));
-            System.out.println("Mouse pressed at: " + event.getX() + ", " + event.getY());
+            System.out.println("Mouse clicked at: " + event.getX() + ", " + event.getY());
         });
 
         // Handle mouse dragging
-        scene.setOnMouseDragged((MouseEvent event) -> {
+        Scene.setOnMouseDragged((MouseEvent event) -> {
+            //System.out.println("Dragging at: " + event.getX() + ", " + event.getY());
             simManager.dragObject(new Vec2((float) event.getSceneX(), (float) event.getSceneY()));
         });
 
-        // Handle mouse release
-        scene.setOnMouseReleased((MouseEvent event) -> {
+        Scene.setOnMouseReleased((MouseEvent event) -> {
             simManager.releaseDrag();
+            /*
+            String selectedShape = ctrlPanel.getSelectedShape();
+            simManager.addToColorList(ctrlPanel.getSelectedColor());
+            simManager.addObject(selectedShape);
+            */
         });
     }
 }
