@@ -1,3 +1,5 @@
 # IntilliJ IDEA build output
 **/out/production/
 .idea/
+libs/
+lib/
