@@ -13,6 +13,8 @@ public class Window {
         this.stage = stage;
         this.root = new BorderPane();
         this.scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add(getClass().getResource("/app.css").toExternalForm());
+
 
         stage.setTitle("Physics Simulator");
         stage.setScene(scene);
